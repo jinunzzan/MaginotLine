@@ -37,7 +37,7 @@ class SelectStationTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+     
         return stations.count
     }
 
@@ -50,11 +50,7 @@ class SelectStationTableViewController: UITableViewController {
         lblName?.text = station.stationName
         
         let lblLine = cell.viewWithTag(2) as? UILabel
-        lblLine?.text = "\(station.lineNumber)"
-
-        
-        // Configure the cell...
-
+                lblLine?.text = "\(station.lineNumber)"
         return cell
     }
     
@@ -108,17 +104,17 @@ class SelectStationTableViewController: UITableViewController {
 
 //searchBar delegate
 extension SelectStationTableViewController: UISearchBarDelegate{
-    func searchBarTextDidBeginEditing (_ searchBar: UISearchBar) {
+     func searchBarTextDidBeginEditing (_ searchBar: UISearchBar) {
         
         //검색어 변경하면 테이블 다시 그려주어야함
         tableView.reloadData()
         tableView.isHidden = false
     }
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         tableView.isHidden = true
         stations = []
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty{
             return
         }
@@ -131,7 +127,7 @@ extension SelectStationTableViewController{
         let url = "http://openAPI.seoul.go.kr:8088/43464a45546c6f7634344855706b57/json/SearchInfoBySubwayNameService/1/5/\(stationName)"
         AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
             .responseDecodable(of: StationRespose.self){[weak self] response in guard case .success(let data) = response.result else {return}
-                
+
                 //데이터 받기
                 self?.stations = data.stations
                 //테이블뷰 다시 그리기

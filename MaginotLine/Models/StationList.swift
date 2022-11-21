@@ -1,11 +1,12 @@
 //
-//  StationResponse.swift
+//  StationList.swift
 //  MaginotLine
 //
-//  Created by Eunchan Kim on 2022/11/18.
+//  Created by Eunchan Kim on 2022/11/21.
 //
 
 import Foundation
+
 struct StationRespose: Decodable {
     private let searchInfo: SearchInfoBySubwayNameService
 
@@ -25,10 +26,10 @@ struct SearchInfoBySubwayNameService: Decodable{
 struct Station: Decodable {
     let stationName:String
     let lineNumber:String
-    
+
     enum CodingKeys: String, CodingKey{
         case stationName = "STATION_NM"
         case lineNumber = "LINE_NUM"
-        
+
     }
 }

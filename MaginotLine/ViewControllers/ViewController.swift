@@ -9,11 +9,7 @@ import UIKit
 import Alamofire
 
 class ViewController: UIViewController {
-    var stations: [Station] = []
-    
-    let apiKey = "4172664e4e6c6f763130366746444b72"
-    
-    var realTimeArrivalList:[RealTimeArrivalList] = []
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
