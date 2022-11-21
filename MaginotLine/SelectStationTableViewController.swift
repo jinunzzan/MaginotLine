@@ -8,7 +8,7 @@
 import UIKit
 import Alamofire
 
-class StartStationTableViewController: UITableViewController {
+class SelectStationTableViewController: UITableViewController {
 
     var stations: [Station] = []
     
@@ -19,7 +19,7 @@ class StartStationTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.rowHeight = 100
+        tableView.rowHeight = 60
         searchBar.delegate = self
        
         // Uncomment the following line to preserve selection between presentations
@@ -107,7 +107,7 @@ class StartStationTableViewController: UITableViewController {
 }
 
 //searchBar delegate
-extension StartStationTableViewController: UISearchBarDelegate{
+extension SelectStationTableViewController: UISearchBarDelegate{
     func searchBarTextDidBeginEditing (_ searchBar: UISearchBar) {
         
         //검색어 변경하면 테이블 다시 그려주어야함
@@ -126,7 +126,7 @@ extension StartStationTableViewController: UISearchBarDelegate{
     }
 }
 // REST API
-extension StartStationTableViewController{
+extension SelectStationTableViewController{
     func requestStationName(from stationName: String){
         let url = "http://openAPI.seoul.go.kr:8088/43464a45546c6f7634344855706b57/json/SearchInfoBySubwayNameService/1/5/\(stationName)"
         AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
