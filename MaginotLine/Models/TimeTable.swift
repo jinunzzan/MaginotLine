@@ -8,10 +8,10 @@
 import Foundation
 
 struct Time:Codable{
-    var line_num: String //호선
-    var fr_code: String//외부코드
-    var station_cd: String //전철역코드
-    var station_nm: String//전철역명
+    var line_num: String //호선!
+    var fr_code: String//외부코드!
+    var station_cd: String //전철역코드!
+    var station_nm: String//전철역명!
     var train_no: String//열차번호
     var arriveTime: String//도착시간
     var leftTime: String//출발시간

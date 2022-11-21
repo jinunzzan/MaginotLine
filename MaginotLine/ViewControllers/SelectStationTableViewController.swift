@@ -11,6 +11,7 @@ import Alamofire
 class SelectStationTableViewController: UITableViewController {
 
     var stations: [Station] = []
+    var beforeVC: ViewController?
     
     @IBOutlet weak var searchBar: UISearchBar!
   
@@ -29,6 +30,15 @@ class SelectStationTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    @IBAction func selectStart(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func selectEnd(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -47,14 +57,15 @@ class SelectStationTableViewController: UITableViewController {
         let station = stations[indexPath.row]
         
         let lblName = cell.viewWithTag(1) as? UILabel
-        lblName?.text = station.stationName
+        lblName?.text = station.station_nm
         
         let lblLine = cell.viewWithTag(2) as? UILabel
-                lblLine?.text = "\(station.lineNumber)"
+                lblLine?.text = "\(station.line_num)"
         return cell
     }
     
-
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -90,15 +101,8 @@ class SelectStationTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
+  
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -136,3 +140,4 @@ extension SelectStationTableViewController{
             .resume()
     }
 }
+

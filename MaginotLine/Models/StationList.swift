@@ -24,12 +24,12 @@ struct SearchInfoBySubwayNameService: Decodable{
 }
 
 struct Station: Decodable {
-    let stationName:String
-    let lineNumber:String
+    let station_nm:String
+    let line_num:String
 
     enum CodingKeys: String, CodingKey{
-        case stationName = "STATION_NM"
-        case lineNumber = "LINE_NUM"
+        case station_nm = "STATION_NM"
+        case line_num = "LINE_NUM"
 
     }
 }

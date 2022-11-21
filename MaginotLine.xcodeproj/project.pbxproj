@@ -91,8 +91,8 @@
 			isa = PBXGroup;
 			children = (
 				593F7E9829275E3900BA4BB9 /* TimeTable.swift */,
-				593F7E8F292719A400BA4BB9 /* StationArrivalDataRespose.swift */,
 				593F7EA2292B449B00BA4BB9 /* StationList.swift */,
+				593F7E8F292719A400BA4BB9 /* StationArrivalDataRespose.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
