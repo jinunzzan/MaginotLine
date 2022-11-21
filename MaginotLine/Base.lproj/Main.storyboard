@@ -183,7 +183,7 @@
         <!--마지노선 목록-->
         <scene sceneID="hOX-HJ-hbR">
             <objects>
-                <tableViewController id="mbQ-eF-sqR" sceneMemberID="viewController">
+                <tableViewController id="mbQ-eF-sqR" customClass="MaginotListTableViewController" customModule="MaginotLine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="wHm-Ai-tcS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
