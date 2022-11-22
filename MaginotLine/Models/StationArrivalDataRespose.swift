@@ -5,6 +5,8 @@
 //  Created by Eunchan Kim on 2022/11/18.
 //
 
+
+// 지하철 실시간 도착정보 api
 import Foundation
 
 struct StationArrivalDataResponse: Codable {

@@ -5,6 +5,7 @@
 //  Created by Eunchan Kim on 2022/11/18.
 //
 
+// 지하철 전체시간표 api
 import Foundation
 
 struct Time:Codable{

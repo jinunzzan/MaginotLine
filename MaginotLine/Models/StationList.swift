@@ -5,6 +5,8 @@
 //  Created by Eunchan Kim on 2022/11/21.
 //
 
+
+//지하철역 리스트 api
 import Foundation
 
 struct StationRespose: Decodable {
