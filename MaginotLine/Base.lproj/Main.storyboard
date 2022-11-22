@@ -42,6 +42,21 @@
             </objects>
             <point key="canvasLocation" x="1236" y="227"/>
         </scene>
+        <!--Subway Path View Controller-->
+        <scene sceneID="wZs-N0-oH7">
+            <objects>
+                <viewController id="Y0x-9g-z0H" customClass="SubwayPathViewController" customModule="MaginotLine" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jXP-GH-3mT">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="yks-aB-h8f"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uWB-PS-Fum" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2881" y="511"/>
+        </scene>
         <!--Item-->
         <scene sceneID="V6d-xO-bzO">
             <objects>

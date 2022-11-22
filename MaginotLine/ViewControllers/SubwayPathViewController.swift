@@ -34,7 +34,7 @@ class SubwayPathViewController: UIViewController {
                 print(response)
             guard let result = response.value else { return }
                 self.route = result.result
-                print(self.route)
+                print("소요시감\(self.route)")
         }
     }
 
