@@ -19,7 +19,7 @@ class SubwayPathViewController: UIViewController {
     @IBOutlet weak var lbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        metroLine(202,222)
+        metroLine(520,422)
         // Do any additional setup after loading the view.
         
         

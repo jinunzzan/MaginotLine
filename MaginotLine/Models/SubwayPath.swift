@@ -21,7 +21,7 @@ struct Result: Codable { // 데이터를 포함하는 최 상위 노드
     let fare:Int // 카드 요금
     let cashFare:Int // 현금 요금
     let driveInfoSet:DriveInfoSet // 현금요금
-    let exChangeInfoSet:ExChangeInfoSet // 환승 정보
+    let exChangeInfoSet:ExChangeInfoSet? // 환승 정보
     let stationSet:StationSet // 이동역 정보 그룹
 }
 
