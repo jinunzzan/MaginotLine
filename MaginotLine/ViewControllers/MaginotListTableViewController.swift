@@ -5,6 +5,8 @@
 //  Created by Eunchan Kim on 2022/11/21.
 //
 
+
+//마지노선 리스트
 import UIKit
 import Alamofire
 

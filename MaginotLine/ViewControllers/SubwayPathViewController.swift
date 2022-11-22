@@ -5,6 +5,8 @@
 //  Created by Eunchan Kim on 2022/11/21.
 //
 
+
+//소요시간, 환승시간
 import UIKit
 import Alamofire
 

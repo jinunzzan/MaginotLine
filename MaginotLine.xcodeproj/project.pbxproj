@@ -87,10 +87,10 @@
 		593F7EA0292B27C100BA4BB9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				593F7E9A292766EB00BA4BB9 /* SelectStationTableViewController.swift */,
 				59305773291CB3B00082EEF8 /* ViewController.swift */,
-				593F7EAC292B7C8500BA4BB9 /* SubwayPathViewController.swift */,
+				593F7E9A292766EB00BA4BB9 /* SelectStationTableViewController.swift */,
 				593F7EA8292B66B400BA4BB9 /* MaginotListTableViewController.swift */,
+				593F7EAC292B7C8500BA4BB9 /* SubwayPathViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

@@ -5,6 +5,8 @@
 //  Created by Eunchan Kim on 2022/11/18.
 //
 
+
+// 출발역, 도착역 선택
 import UIKit
 import Alamofire
 
