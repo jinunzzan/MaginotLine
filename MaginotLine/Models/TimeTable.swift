@@ -50,3 +50,7 @@ struct Time:Codable{
 struct TimeTable: Codable {
     var row: [Time]
 }
+
+struct TimeResult: Codable {
+    var SearchSTNTimeTableByIDService: TimeTable
+}

@@ -10,35 +10,38 @@ import Alamofire
 
 class MaginotListTableViewController: UITableViewController {
     
-    var timeTable:TimeTable?
+    var timeTable:[Time]?
     
     let apiKey = "4172664e4e6c6f763130366746444b72"
+    let type = "json"
+    let serviceKey = "SearchSTNTimeTableByIDService"
     var start_index = 1
     var end_index = 5
     var station_cd = 2561
     var week_tag = 1
     var inout_tag = 1
-    
-    var timeTables: [TimeTable] = []
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.rowHeight = 100
         
-        timeTable(1,5,2561,1,1)
+        searchTimeTable(1,5,2561,1,1)
     }
     
-    func timeTable(_ start_index:Int, _ end_index:Int, _ station_cd:Int, _ week_tag:Int, _ inout_tag:Int){
-        let str = "http://openAPI.seoul.go.kr:8088"
-        let params:Parameters = ["KEY":apiKey, "Type":"json", "SERVICE":"SearchSTNTimeTableByIDService", "START_INDEX":start_index, "END_INDEX":end_index, "STATION_CD":station_cd, "WEEK_TAG":week_tag, "INOUT_TAG":inout_tag]
+    func searchTimeTable(_ start_index:Int, _ end_index:Int, _ station_cd:Int, _ week_tag:Int, _ inout_tag:Int){
         
-        let alamo = AF.request(str, method: .get, parameters: params)
+        let str = "http://openAPI.seoul.go.kr:8088/\(apiKey)/\(type)/\(serviceKey)/\(start_index)/\(end_index)/\(station_cd)/\(week_tag)/\(inout_tag)/"
+
+        print(str)
         
-        alamo.responseDecodable(of: timeTable.self)
+        let alamo = AF.request(str, method: .get)
+        
+        alamo.responseDecodable(of: TimeResult.self)
         { response in print(response)
             guard let result = response.value else {return}
-            self.timeTable = result.result
+            self.timeTable = result.SearchSTNTimeTableByIDService.row
             print(self.timeTable)
         }
     }
@@ -52,7 +55,7 @@ class MaginotListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return 0
     }
 
     /*
