@@ -63,6 +63,31 @@ class SelectStationTableViewController: UITableViewController {
         
         let lblLine = cell.viewWithTag(2) as? UILabel
                 lblLine?.text = "\(station.line_num)"
+        
+        let lineImage = cell.viewWithTag(4) as? UIImageView
+        switch station.line_num {
+        case "01호선":
+            lineImage?.image = UIImage(named: "1line")
+        case "02호선" :
+            lineImage?.image = UIImage(named: "2line")
+        case "03호선" :
+            lineImage?.image = UIImage(named: "3line")
+        case "04호선" :
+            lineImage?.image = UIImage(named: "4line")
+        case "05호선" :
+            lineImage?.image = UIImage(named: "5line")
+        case "06호선" :
+            lineImage?.image = UIImage(named: "6line")
+        case "07호선" :
+            lineImage?.image = UIImage(named: "7line")
+        case "08호선" :
+            lineImage?.image = UIImage(named: "8line")
+        case "09호선" :
+            lineImage?.image = UIImage(named: "9line")
+        default:
+            lineImage?.image = UIImage(named: "1line")
+        }
+        
         return cell
     }
     

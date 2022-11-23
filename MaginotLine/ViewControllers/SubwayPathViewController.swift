@@ -12,6 +12,8 @@ import Alamofire
 
 class SubwayPathViewController: UIViewController {
     var route:Result?
+    var exchangeInfoSet:ExChangeInfo?
+    
     let apiKey:String = "Uod2LyinNkpHwAVsJrWBBA"
     let sid = 202
     let eid = 222
@@ -19,7 +21,7 @@ class SubwayPathViewController: UIViewController {
     @IBOutlet weak var lbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        metroLine(520,422)
+        metroLine(520,555)
         // Do any additional setup after loading the view.
         
         
@@ -38,6 +40,9 @@ class SubwayPathViewController: UIViewController {
                 self.route = result.result
                 print("==================")
                 print("전체 운행소요시간\(self.route?.globalTravelTime)")
+                print("==================")
+                print("환승역ID:\(self.exchangeInfoSet?.exSID)")
+                print("환승소요시간:\(self.exchangeInfoSet?.exWalkTime)")
                 print("==================")
                 
         }

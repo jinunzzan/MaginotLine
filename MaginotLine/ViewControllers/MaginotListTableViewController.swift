@@ -13,15 +13,17 @@ import Alamofire
 class MaginotListTableViewController: UITableViewController {
     
     var timeTable:[Time]?
+    var time:Time?
+    var timeResult:Time?
     
     let apiKey = "4172664e4e6c6f763130366746444b72"
     let type = "json"
     let serviceKey = "SearchSTNTimeTableByIDService"
-    var start_index = 1
-    var end_index = 5
-    var station_cd = 2561
-    var week_tag = 1
-    var inout_tag = 1
+    var start_index = 1 //요청시작위치
+    var end_index = 5 //요청종료위치
+    var station_cd = 2561 //전철역코드
+    var week_tag = 1 //요일
+    var inout_tag = 1 //상/하행선
 
 
     override func viewDidLoad() {
@@ -44,7 +46,12 @@ class MaginotListTableViewController: UITableViewController {
         { response in print(response)
             guard let result = response.value else {return}
             self.timeTable = result.SearchSTNTimeTableByIDService.row
-            print(self.timeTable)
+//            print(self.timeTable)
+            
+            print("============")
+            print("출발시간: \(self.time?.leftTime)")
+            print("출발역: \(self.timeResult?.station_nm)")
+            print("============")
         }
     }
 
