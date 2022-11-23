@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y0x-9g-z0H">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Zfd-FA-Cnh">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -179,6 +179,9 @@
                                     <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="timePicker:" destination="SDh-0Q-cnk" eventType="touchUpInside" id="j9p-Xi-mcO"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="안녕하세요," textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZE4-0I-Bna">
                                 <rect key="frame" x="39" y="138" width="220" height="52"/>
@@ -406,7 +409,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="lJE-ZF-ZAE"/>
-        <segue reference="klQ-0C-Xiz"/>
+        <segue reference="flt-cK-nqo"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ios썸" width="1080" height="1080"/>
