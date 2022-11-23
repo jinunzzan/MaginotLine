@@ -12,7 +12,7 @@ import Foundation
 struct Root:Codable {
     let result:Result
 }
-struct Result: Codable { // 데이터를 포함하는 최 상위 노드
+struct Result: Codable { 
     let globalStartName: String // 출발역 명
     let globalEndName: String // 도착역 명
     let globalTravelTime: Int // 전체 운행소요시간(분)

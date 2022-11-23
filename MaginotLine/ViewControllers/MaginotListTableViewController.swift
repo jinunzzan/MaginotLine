@@ -12,7 +12,7 @@ import Alamofire
 
 class MaginotListTableViewController: UITableViewController {
     
-    var timeTable:[Time]?
+    var timeTable:[Time]=[]
     var time:Time?
     var timeResult:Time?
     
@@ -21,9 +21,9 @@ class MaginotListTableViewController: UITableViewController {
     let serviceKey = "SearchSTNTimeTableByIDService"
     var start_index = 1 //요청시작위치
     var end_index = 5 //요청종료위치
-    var station_cd = 2561 //전철역코드
-    var week_tag = 1 //요일
-    var inout_tag = 1 //상/하행선
+    var station_cd = "2561" //전철역코드
+    var week_tag = "1" //요일
+    var inout_tag = "1" //상/하행선
 
 
     override func viewDidLoad() {
@@ -31,10 +31,12 @@ class MaginotListTableViewController: UITableViewController {
 
         tableView.rowHeight = 100
         
-        searchTimeTable(1,5,2561,1,1)
+        //역 코드가 0으로 시작하면 오류가 발생한다.
+
+        searchTimeTable(start_index: 1, end_index: 20, station_cd: "0309", week_tag: "1", inout_tag: "1")
     }
     
-    func searchTimeTable(_ start_index:Int, _ end_index:Int, _ station_cd:Int, _ week_tag:Int, _ inout_tag:Int){
+    func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
         
         let str = "http://openAPI.seoul.go.kr:8088/\(apiKey)/\(type)/\(serviceKey)/\(start_index)/\(end_index)/\(station_cd)/\(week_tag)/\(inout_tag)/"
 
@@ -46,12 +48,31 @@ class MaginotListTableViewController: UITableViewController {
         { response in print(response)
             guard let result = response.value else {return}
             self.timeTable = result.SearchSTNTimeTableByIDService.row
-//            print(self.timeTable)
+            print(self.timeTable)
             
             print("============")
-            print("출발시간: \(self.time?.leftTime)")
-            print("출발역: \(self.timeResult?.station_nm)")
+            print("출발시간: \(self.timeTable[19].leftTime)")
+            print("출발역: \(self.timeTable[0].station_nm)")
             print("============")
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let strToday = formatter.string(from: Date())
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let aa = 30.0
+//            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
+            for time in self.timeTable {
+                let leftTime = "\(strToday) \(time.leftTime)"
+                
+                
+                
+                guard let dateLetfTime = formatter.date(from: leftTime)
+                         else {fatalError()}
+                let dateLetfTime1 = dateLetfTime.addingTimeInterval(aa * 60.0)
+                let strArriveTime = formatter.string(from: dateLetfTime1)
+                print(strArriveTime)
+                
+            }
         }
     }
 
