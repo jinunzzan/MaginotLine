@@ -198,7 +198,8 @@
                     <navigationItem key="navigationItem" id="5Ac-Yb-aho"/>
                     <connections>
                         <outlet property="endBtn" destination="prb-8n-wHF" id="QCs-zc-bCR"/>
-                        <outlet property="startBtn" destination="HJA-ha-7mZ" id="2R3-4m-ykm"/>
+                        <outlet property="startBtn" destination="HJA-ha-7mZ" id="LwA-za-vko"/>
+                        <outlet property="timeBtn" destination="yXk-T5-hm4" id="xQj-fo-zy4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMd-uv-xoA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
