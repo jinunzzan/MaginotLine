@@ -33,12 +33,20 @@ class SelectStationTableViewController: UITableViewController {
     }
 
     @IBAction func selectStart(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        let index = sender.tag
+        let startStation = self.stations[index]
+        print("출발역 : \(startStation.station_nm)")
+        beforeVC?.setStation(type: 0, value: startStation.station_nm)
         
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func selectEnd(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        let index = sender.tag
+        let endStation = self.stations[index]
+        print("도착역 : \(endStation.station_nm)")
+        beforeVC?.setStation(type: 1, value: endStation.station_nm)
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Table view data source

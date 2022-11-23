@@ -148,6 +148,7 @@
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
+                                    <action selector="departureBtn:" destination="SDh-0Q-cnk" eventType="touchUpInside" id="aje-12-DW0"/>
                                     <segue destination="mjx-DJ-gAJ" kind="show" id="iza-7K-Qpq"/>
                                 </connections>
                             </button>
@@ -195,6 +196,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="5Ac-Yb-aho"/>
+                    <connections>
+                        <outlet property="endBtn" destination="prb-8n-wHF" id="QCs-zc-bCR"/>
+                        <outlet property="startBtn" destination="HJA-ha-7mZ" id="2R3-4m-ykm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dMd-uv-xoA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
