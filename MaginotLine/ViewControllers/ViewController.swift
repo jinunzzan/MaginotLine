@@ -71,12 +71,13 @@ class ViewController: UIViewController{
             let day = self.dateCode[pickerFrame.selectedRow(inComponent: 2)]
             
             self.selectMaginotTime = "\(hour):\(min)"
+            print("\(hour):\(min)")
             
             self.timeBtn.setTitle(self.selectMaginotTime, for: .normal)
             
             
             
-            print("\(hour)\(min)\(day)")
+            print("\(hour)시\(min)분/ 요일은: \(day)")
         }))
         self.present(alert, animated: true, completion: nil)
     }
