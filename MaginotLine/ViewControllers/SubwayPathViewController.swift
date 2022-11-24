@@ -15,7 +15,7 @@ class SubwayPathViewController: UIViewController {
     //1. var exchangeInfoSet:ExChangeInfo? - nil값 나옴
     var exchangeInfoSet:ExChangeInfoSet?
     
-    
+    // fr_code 사용
     let apiKey:String = "Uod2LyinNkpHwAVsJrWBBA"
     let sid = 202
     let eid = 222

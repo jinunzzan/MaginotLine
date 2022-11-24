@@ -26,7 +26,7 @@ class MaginotListTableViewController: UITableViewController {
     var strStartFrCode: String = ""
     var strEndFrCode: String = ""
     
-    
+    // 시간표 api
     let apiKey = "4172664e4e6c6f763130366746444b72"
     let type = "json"
     let serviceKey = "SearchSTNTimeTableByIDService"
@@ -36,6 +36,15 @@ class MaginotListTableViewController: UITableViewController {
     var week_tag = "1" //요일
     var inout_tag = "1" //상/하행선
 
+    // 소요시간 api
+    var route:Result?
+    //1. var exchangeInfoSet:ExChangeInfo? - nil값 나옴
+    var exchangeInfoSet:ExChangeInfoSet?
+    
+    // fr_code 사용
+    let apiKeyOdi:String = "Uod2LyinNkpHwAVsJrWBBA"
+    let sid = 202
+    let eid = 222
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +60,9 @@ class MaginotListTableViewController: UITableViewController {
         //역 코드가 0으로 시작하면 오류가 발생한다.
 
         searchTimeTable(start_index: 1, end_index: 5, station_cd: "0309", week_tag: "1", inout_tag: "1")
+        searchSubwayPath(520,417)
+        
+        
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
@@ -68,7 +80,7 @@ class MaginotListTableViewController: UITableViewController {
             print(self.timeTable)
             
             print("============")
-            print("출발시간: \(self.timeTable[19].leftTime)")
+            print("출발시간: \(self.timeTable[0].leftTime)")
             print("출발역: \(self.timeTable[0].station_nm)")
             print("============")
             
@@ -92,7 +104,27 @@ class MaginotListTableViewController: UITableViewController {
             }
         }
     }
-
+func searchSubwayPath(_ sid:Int,_ eid:Int){
+    let str = "https://api.odsay.com/v1/api/subwayPath"
+    let params:Parameters = ["apiKey":apiKeyOdi, "lang":0, "output":"json", "CID":1000, "SID":sid, "EID":eid]
+    let alamo = AF.request(str, method: .get, parameters: params)
+    
+    alamo.responseDecodable(of: Root.self)
+        { response in
+            print(response)
+        guard let result = response.value else { return }
+            self.route = result.result
+            print("==================")
+            print("전체 운행소요시간\(self.route?.globalTravelTime)")
+            print("==================")
+            self.exchangeInfoSet = self.route?.exChangeInfoSet
+            guard let infoSet = self.exchangeInfoSet else { fatalError()}
+            print("환승역ID:\(infoSet.exChangeInfo[0].exSID)")
+            print("환승소요시간:\(infoSet.exChangeInfo[0].exWalkTime)")
+            print("==================")
+            
+    }
+}
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
