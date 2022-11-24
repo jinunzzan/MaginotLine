@@ -16,6 +16,17 @@ class MaginotListTableViewController: UITableViewController {
     var time:Time?
     var timeResult:Time?
     
+
+    // 받아올 stringData
+
+    var strStartStationCD:String = ""
+    var strEndStationCD:String = ""
+    var strMaginotTime:String = ""
+    var strToday:String = ""
+    var strStartFrCode: String = ""
+    var strEndFrCode: String = ""
+    
+    
     let apiKey = "4172664e4e6c6f763130366746444b72"
     let type = "json"
     let serviceKey = "SearchSTNTimeTableByIDService"
@@ -31,9 +42,15 @@ class MaginotListTableViewController: UITableViewController {
 
         tableView.rowHeight = 100
         
+        print("마지노선 출발역cd: \(strStartStationCD)")
+        print("마지노선 도착역cd: \(strEndStationCD)")
+        print("마지노선 출발역fr_cd: \(strStartFrCode)")
+        print("마지노선 도착역fr_cd: \(strEndFrCode)")
+        print("마지노선 시간: \(strMaginotTime)")
+        print("마지노선 요일코드: \(strToday)")
         //역 코드가 0으로 시작하면 오류가 발생한다.
 
-        searchTimeTable(start_index: 1, end_index: 20, station_cd: "0309", week_tag: "1", inout_tag: "1")
+        searchTimeTable(start_index: 1, end_index: 5, station_cd: "0309", week_tag: "1", inout_tag: "1")
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){

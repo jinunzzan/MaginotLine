@@ -21,8 +21,11 @@ class ViewController: UIViewController{
     
     // 시간표 검색을 위해 필요한 정보
     var selectMaginotTime = "" // 도착시간
-    var startStaionCode = "" // 출발역 fr_code
-    var endStationCode = ""// 도착역 fr_code
+    var startStaionFrCode = "" // 출발역 fr_code
+    var endStationFrCode = ""// 도착역 fr_code
+    var startStaionCode = "" // 출발역 station_cd
+    var endStationCode = ""// 도착역 station_cd
+    
     var today = "" // 날짜 코드
     
     let pickerListHour = ["03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"]
@@ -39,22 +42,42 @@ class ViewController: UIViewController{
       
     }
     // 출발역 도착역 선택 후 받아오기
-    func setStation(type:Int, value:String, code: String){
+    func setStation(type:Int, value:String, frCode: String, cd: String){
         
         if type == 0 {
             startBtn.setTitle("        \(value)",for:.normal)
-            print("fr_code: \(code)")
-            startStaionCode = code
+            print("fr_code: \(frCode)")
+            print("cd: \(cd)")
             
+            startStaionFrCode = frCode
+            startStaionCode = cd
         } else {
             endBtn.setTitle("        \(value)",for:.normal)
-            print("fr_code: \(code)")
-            endStationCode = code
+            print("fr_code: \(frCode)")
+            print("cd: \(cd)")
+            
+            endStationFrCode = frCode
+            endStationCode = cd
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let vc = segue.destination as? SelectStationTableViewController else {return}
-        vc.beforeVC = self
+        
+        if segue.identifier == "forMaginotList" {
+            let vc2 = segue.destination as? MaginotListTableViewController
+            vc2?.strStartFrCode = startStaionFrCode
+            vc2?.strEndFrCode = endStationFrCode
+            vc2?.strStartStationCD = startStaionCode
+            vc2?.strEndStationCD = endStationCode
+            vc2?.strMaginotTime = selectMaginotTime
+            vc2?.strToday = today
+        } else {
+            guard let vc = segue.destination as? SelectStationTableViewController else {return}
+            vc.beforeVC = self
+            
+        }
+        
+       
+        
     }
     
     // picker 그려주기
@@ -96,8 +119,17 @@ class ViewController: UIViewController{
     
     // 검색 버튼으로 데이터 전송
     @IBAction func setMaginotLine(_ sender: UIButton) {
-        
+       
     }
+    //segue로 stringData 보내기
+//    override func prepare(for segue: UIStoryboardSegue,sender: Any?)
+//    {
+////        let vc2 = segue.destination as? MaginotListTableViewController
+////        vc2?.strStartStationCD = startStaionCode
+////        vc2?.strEndStationCD = endStationCode
+////        vc2?.strMaginotTime = selectMaginotTime
+////        vc2?.strToday = today
+//    }
 }
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {

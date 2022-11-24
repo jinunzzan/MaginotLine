@@ -126,7 +126,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="setMaginotLine:" destination="SDh-0Q-cnk" eventType="touchUpInside" id="nYe-ud-baN"/>
-                                    <segue destination="mbQ-eF-sqR" kind="show" id="flt-cK-nqo"/>
+                                    <segue destination="mbQ-eF-sqR" kind="show" identifier="forMaginotList" id="flt-cK-nqo"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="지각러 탈출해 볼까요?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mnu-WD-B63">
