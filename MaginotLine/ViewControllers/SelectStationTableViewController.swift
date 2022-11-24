@@ -38,7 +38,6 @@ class SelectStationTableViewController: UITableViewController {
         print("출발역 : \(startStation.station_nm)")
         beforeVC?.setStation(type: 0, value: startStation.station_nm, frCode: startStation.fr_code, cd: startStation.station_cd)
         
-        
         navigationController?.popViewController(animated: true)
     }
     

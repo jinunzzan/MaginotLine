@@ -17,20 +17,20 @@ class SubwayPathViewController: UIViewController {
     
     // fr_code 사용
     let apiKey:String = "Uod2LyinNkpHwAVsJrWBBA"
-    let sid = 202
-    let eid = 222
+    let sid = "202"
+    let eid = "222"
 
     @IBOutlet weak var lbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        metroLine(520,417)
+        metroLine("520","417")
         // Do any additional setup after loading the view.
         
         
         // URLSession.shared.dataTask(with: url)
         
     }
-    func metroLine(_ sid:Int,_ eid:Int){
+    func metroLine(_ sid:String,_ eid:String){
         let str = "https://api.odsay.com/v1/api/subwayPath"
         let params:Parameters = ["apiKey":apiKey, "lang":0, "output":"json", "CID":1000, "SID":sid, "EID":eid]
         let alamo = AF.request(str, method: .get, parameters: params)

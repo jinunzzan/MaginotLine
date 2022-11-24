@@ -21,7 +21,7 @@ class ViewController: UIViewController{
     
     // 시간표 검색을 위해 필요한 정보
     var selectMaginotTime = "" // 도착시간
-    var startStaionFrCode = "" // 출발역 fr_code
+    var startStaionFrCode = ""// 출발역 fr_code
     var endStationFrCode = ""// 도착역 fr_code
     var startStaionCode = "" // 출발역 station_cd
     var endStationCode = ""// 도착역 station_cd
@@ -73,7 +73,6 @@ class ViewController: UIViewController{
         } else {
             guard let vc = segue.destination as? SelectStationTableViewController else {return}
             vc.beforeVC = self
-            
         }
         
        

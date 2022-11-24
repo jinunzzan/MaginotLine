@@ -13,6 +13,7 @@ import Alamofire
 class MaginotListTableViewController: UITableViewController {
     
     var timeTable:[Time]=[]
+    
     var time:Time?
     var timeResult:Time?
     
@@ -23,8 +24,16 @@ class MaginotListTableViewController: UITableViewController {
     var strEndStationCD:String = ""
     var strMaginotTime:String = ""
     var strToday:String = ""
-    var strStartFrCode: String = ""
-    var strEndFrCode: String = ""
+    var strStartFrCode = ""
+    var strEndFrCode = ""
+    
+    //출발시간+ 소요시간
+    var strArriveTime = ""
+    // strArriveTime이 들어갈 배열
+    struct ArrarriveTime {
+        var strArriveTime:String
+    }
+    
     
     // 시간표 api
     let apiKey = "4172664e4e6c6f763130366746444b72"
@@ -40,6 +49,8 @@ class MaginotListTableViewController: UITableViewController {
     var route:Result?
     //1. var exchangeInfoSet:ExChangeInfo? - nil값 나옴
     var exchangeInfoSet:ExChangeInfoSet?
+    //환승시간 변수
+    var transMinute:Int?
     
     // fr_code 사용
     let apiKeyOdi:String = "Uod2LyinNkpHwAVsJrWBBA"
@@ -48,21 +59,26 @@ class MaginotListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         tableView.rowHeight = 100
         
+        print(timeTable)
         print("마지노선 출발역cd: \(strStartStationCD)")
         print("마지노선 도착역cd: \(strEndStationCD)")
         print("마지노선 출발역fr_cd: \(strStartFrCode)")
         print("마지노선 도착역fr_cd: \(strEndFrCode)")
         print("마지노선 시간: \(strMaginotTime)")
         print("마지노선 요일코드: \(strToday)")
-        //역 코드가 0으로 시작하면 오류가 발생한다.
+        
+       
 
-        searchTimeTable(start_index: 1, end_index: 5, station_cd: "0309", week_tag: "1", inout_tag: "1")
-        searchSubwayPath(520,417)
-        
-        
+        searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
+        searchSubwayPath(strStartFrCode ?? "", strEndFrCode ?? "")
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
@@ -74,37 +90,41 @@ class MaginotListTableViewController: UITableViewController {
         let alamo = AF.request(str, method: .get)
         
         alamo.responseDecodable(of: TimeResult.self)
-        { response in print(response)
+        { [self] response in print(response)
             guard let result = response.value else {return}
             self.timeTable = result.SearchSTNTimeTableByIDService.row
             print(self.timeTable)
+            self.tableView.reloadData()
+            
             
             print("============")
             print("출발시간: \(self.timeTable[0].leftTime)")
             print("출발역: \(self.timeTable[0].station_nm)")
+            
             print("============")
             
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             let strToday = formatter.string(from: Date())
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            let aa = 30.0
+            var subWayLeadTime = Double(self.route?.globalTravelTime ?? Int(0.0))
+            print("지하철 소요시간: \(subWayLeadTime)")
 //            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
             for time in self.timeTable {
                 let leftTime = "\(strToday) \(time.leftTime)"
-                
-                
-                
                 guard let dateLetfTime = formatter.date(from: leftTime)
                          else {fatalError()}
-                let dateLetfTime1 = dateLetfTime.addingTimeInterval(aa * 60.0)
-                let strArriveTime = formatter.string(from: dateLetfTime1)
-                print(strArriveTime)
-                
+                let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0)
+                self.strArriveTime = formatter.string(from: dateLetfTime1)
+                print("도착시간: \(strArriveTime)")
+               
             }
+            
         }
+        tableView.reloadData()
     }
-func searchSubwayPath(_ sid:Int,_ eid:Int){
+    
+func searchSubwayPath(_ sid:String,_ eid:String){
     let str = "https://api.odsay.com/v1/api/subwayPath"
     let params:Parameters = ["apiKey":apiKeyOdi, "lang":0, "output":"json", "CID":1000, "SID":sid, "EID":eid]
     let alamo = AF.request(str, method: .get, parameters: params)
@@ -118,11 +138,20 @@ func searchSubwayPath(_ sid:Int,_ eid:Int){
             print("전체 운행소요시간\(self.route?.globalTravelTime)")
             print("==================")
             self.exchangeInfoSet = self.route?.exChangeInfoSet
-            guard let infoSet = self.exchangeInfoSet else { fatalError()}
-            print("환승역ID:\(infoSet.exChangeInfo[0].exSID)")
-            print("환승소요시간:\(infoSet.exChangeInfo[0].exWalkTime)")
-            print("==================")
-            
+            if let infoSet = self.exchangeInfoSet {
+                print("환승역ID:\(infoSet.exChangeInfo[0].exSID)")
+                print("환승소요시간(초):\(infoSet.exChangeInfo[0].exWalkTime)")
+                self.transMinute = infoSet.exChangeInfo[0].exWalkTime / 60
+                if (self.transMinute ?? 0) % 60 == 0 {
+                    self.transMinute = self.transMinute
+                } else {
+                    self.transMinute! += 1
+                }
+                print("환승소요시간(분): \(self.transMinute)분")
+                print("==================")
+            } else {
+                print("전체 운행소요시간\(self.route?.globalTravelTime)")
+            }
     }
 }
     // MARK: - Table view data source
@@ -134,18 +163,31 @@ func searchSubwayPath(_ sid:Int,_ eid:Int){
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+      
+        return timeTable.count
+        
     }
 
-    /*
+  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "maginotcell", for: indexPath)
 
-        // Configure the cell...
+        let time = timeTable[indexPath.row]
+        
+              let lblStart = cell.viewWithTag(1) as? UILabel
+        lblStart?.text = time.station_nm
+        let lblStartTime = cell.viewWithTag(2) as? UILabel
+        lblStartTime?.text = time.arriveTime
 
+        let lblEnd = cell.viewWithTag(3) as? UILabel
+        lblEnd?.text = self.route?.globalEndName
+        
+        let lblEndTime = cell.viewWithTag(4) as? UILabel
+        lblEndTime?.text = strArriveTime
+        
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.
