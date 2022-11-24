@@ -49,6 +49,7 @@ struct Time:Codable{
 }
 
 struct TimeTable: Codable {
+    var list_total_count: Int
     var row: [Time]
 }
 

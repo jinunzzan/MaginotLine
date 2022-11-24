@@ -21,6 +21,7 @@
 		593F7EA9292B66B400BA4BB9 /* MaginotListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F7EA8292B66B400BA4BB9 /* MaginotListTableViewController.swift */; };
 		593F7EAB292B7C4200BA4BB9 /* SubwayPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F7EAA292B7C4200BA4BB9 /* SubwayPath.swift */; };
 		593F7EAD292B7C8500BA4BB9 /* SubwayPathViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F7EAC292B7C8500BA4BB9 /* SubwayPathViewController.swift */; };
+		593F7EF4292F8FD900BA4BB9 /* LoginModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593F7EF3292F8FD900BA4BB9 /* LoginModalViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		593F7EA8292B66B400BA4BB9 /* MaginotListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaginotListTableViewController.swift; sourceTree = "<group>"; };
 		593F7EAA292B7C4200BA4BB9 /* SubwayPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayPath.swift; sourceTree = "<group>"; };
 		593F7EAC292B7C8500BA4BB9 /* SubwayPathViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayPathViewController.swift; sourceTree = "<group>"; };
+		593F7EF3292F8FD900BA4BB9 /* LoginModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModalViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				593F7E9A292766EB00BA4BB9 /* SelectStationTableViewController.swift */,
 				593F7EA8292B66B400BA4BB9 /* MaginotListTableViewController.swift */,
 				593F7EAC292B7C8500BA4BB9 /* SubwayPathViewController.swift */,
+				593F7EF3292F8FD900BA4BB9 /* LoginModalViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				59305772291CB3B00082EEF8 /* SceneDelegate.swift in Sources */,
 				593F7E9B292766EB00BA4BB9 /* SelectStationTableViewController.swift in Sources */,
 				593F7EAB292B7C4200BA4BB9 /* SubwayPath.swift in Sources */,
+				593F7EF4292F8FD900BA4BB9 /* LoginModalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

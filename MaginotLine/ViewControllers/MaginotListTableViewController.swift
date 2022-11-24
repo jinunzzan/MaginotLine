@@ -41,7 +41,6 @@ class MaginotListTableViewController: UITableViewController {
     var station_cd = "2561" //전철역코드
     var week_tag = "1" //요일
     var inout_tag = "1" //상/하행선
-
     // 소요시간 api
     var route:Result?
     //1. var exchangeInfoSet:ExChangeInfo? - nil값 나옴
@@ -49,20 +48,22 @@ class MaginotListTableViewController: UITableViewController {
     //환승시간 변수
     var transMinute:Int?
     
+    
+    
+    
     // fr_code 사용
     let apiKeyOdi:String = "Uod2LyinNkpHwAVsJrWBBA"
     let sid = 202
     let eid = 222
+    
+    // 도착시간 배열
     var timeArray:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.rowHeight = 100
         
         print(timeTable)
@@ -72,17 +73,16 @@ class MaginotListTableViewController: UITableViewController {
         print("마지노선 도착역fr_cd: \(strEndFrCode)")
         print("마지노선 시간: \(strMaginotTime)")
         print("마지노선 요일코드: \(strToday)")
+        print("마지노선 상하행선코드: \(inout_tag)")
         
-       
+       // 마지노선 구하는 방법은? 마지노선 시간 - 소요시간 에 도착시간이 가장 가까운 열차
 
         searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
         searchSubwayPath(strStartFrCode ?? "", strEndFrCode ?? "")
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
-        
         let str = "http://openAPI.seoul.go.kr:8088/\(apiKey)/\(type)/\(serviceKey)/\(start_index)/\(end_index)/\(station_cd)/\(week_tag)/\(inout_tag)/"
-
         print(str)
         
         let alamo = AF.request(str, method: .get)
@@ -101,23 +101,41 @@ class MaginotListTableViewController: UITableViewController {
             
             print("============")
             
+            // 데이터 포맷 변환
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
+            
+            // 지금 현재 날짜 / 시간을 데이터 포맷에 맞춰 담기
             let strToday = formatter.string(from: Date())
+            
+            // 시간:분:초로 데이터 포맷 확장
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            
+            // 지하철 총 소요시간을 ** 분으로 맞춰서 더할 수 있게 한 거
             var subWayLeadTime = Double(self.route?.globalTravelTime ?? Int(0.0))
             print("지하철 소요시간: \(subWayLeadTime)")
+           
+          
 //            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
             
             timeArray = [String]()
             for time in self.timeTable {
                 let leftTime = "\(strToday) \(time.leftTime)"
                 guard let dateLetfTime = formatter.date(from: leftTime)
-                         else {fatalError()}
-                let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0)
+                        
+                else {fatalError()}
+                let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0) // 걸리는 시간
+                print("걸리는시간\(dateLetfTime1)")
                 self.strArriveTime = formatter.string(from: dateLetfTime1)
                 print("도착시간: \(strArriveTime)")
                 timeArray.append(strArriveTime)
+                
+                
+                // 진짜 마지노선 리스트 구하기!
+                var maginotTime = "\(strToday) \(strMaginotTime)"
+                guard var mustDepartTime = formatter.date(from: maginotTime) else {fatalError()}
+                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime * 1.0))
+                print("찐찐찐이게찐임 \(mustDepartTime1)")
             }
             
         }
@@ -152,6 +170,7 @@ func searchSubwayPath(_ sid:String,_ eid:String){
             } else {
                 print("전체 운행소요시간\(self.route?.globalTravelTime)")
             }
+           
     }
 }
     // MARK: - Table view data source
