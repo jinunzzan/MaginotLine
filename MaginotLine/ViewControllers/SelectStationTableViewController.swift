@@ -36,7 +36,8 @@ class SelectStationTableViewController: UITableViewController {
         let index = sender.tag
         let startStation = self.stations[index]
         print("출발역 : \(startStation.station_nm)")
-        beforeVC?.setStation(type: 0, value: startStation.station_nm)
+        beforeVC?.setStation(type: 0, value: startStation.station_nm, code: startStation.fr_code)
+        
         
         navigationController?.popViewController(animated: true)
     }
@@ -45,7 +46,8 @@ class SelectStationTableViewController: UITableViewController {
         let index = sender.tag
         let endStation = self.stations[index]
         print("도착역 : \(endStation.station_nm)")
-        beforeVC?.setStation(type: 1, value: endStation.station_nm)
+        beforeVC?.setStation(type: 1, value: endStation.station_nm, code: endStation.fr_code)
+        
         navigationController?.popViewController(animated: true)
     }
     

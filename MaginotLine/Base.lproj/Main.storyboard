@@ -148,7 +148,6 @@
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="departureBtn:" destination="SDh-0Q-cnk" eventType="touchUpInside" id="aje-12-DW0"/>
                                     <segue destination="mjx-DJ-gAJ" kind="show" id="iza-7K-Qpq"/>
                                 </connections>
                             </button>

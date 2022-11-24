@@ -13,10 +13,17 @@ import Alamofire
 class ViewController: UIViewController{
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var endBtn: UIButton!
-    var selectMaginotTime = ""
+    
+    var selectMaginotTimeBtn = "" //시간선택 버튼 타이틀
     @IBOutlet weak var timeBtn: UIButton!
     
     var stations: Station?
+    
+    // 시간표 검색을 위해 필요한 정보
+    var selectMaginotTime = "" // 도착시간
+    var startStaionCode = "" // 출발역 fr_code
+    var endStationCode = ""// 도착역 fr_code
+    var today = "" // 날짜 코드 
     
     let pickerListHour = ["03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"]
     let pickerListMinute = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"]
@@ -32,15 +39,18 @@ class ViewController: UIViewController{
       
     }
     // 출발역 도착역 선택 후 받아오기
-    @IBAction func departureBtn(_ sender: Any){
-       
-    }
-    func setStation(type:Int, value:String){
+
+    func setStation(type:Int, value:String, code: String){
         
         if type == 0 {
             startBtn.setTitle("        \(value)",for:.normal)
+            print("fr_code: \(code)")
+            startStaionCode = code
+            
         } else {
             endBtn.setTitle("        \(value)",for:.normal)
+            print("fr_code: \(code)")
+            endStationCode = code
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -70,14 +80,17 @@ class ViewController: UIViewController{
             let min = self.pickerListMinute[pickerFrame.selectedRow(inComponent: 1)]
             let day = self.dateCode[pickerFrame.selectedRow(inComponent: 2)]
             
-            self.selectMaginotTime = "\(hour):\(min)"
-            print("\(hour):\(min)")
-            
-            self.timeBtn.setTitle(self.selectMaginotTime, for: .normal)
-            
+            self.today = "\(day)"
+            self.selectMaginotTime = "\(hour):\(min):00"
+            self.selectMaginotTimeBtn = "\(hour):\(min)"
             
             
+            self.timeBtn.setTitle(self.selectMaginotTimeBtn, for: .normal)
+            print(self.selectMaginotTime)
             print("\(hour)시\(min)분/ 요일은: \(day)")
+            print(self.today)
+            
+            
         }))
         self.present(alert, animated: true, completion: nil)
     }
