@@ -30,9 +30,6 @@ class MaginotListTableViewController: UITableViewController {
     //출발시간+ 소요시간
     var strArriveTime = ""
     // strArriveTime이 들어갈 배열
-    struct ArrarriveTime {
-        var strArriveTime:String
-    }
     
     
     // 시간표 api
@@ -56,7 +53,8 @@ class MaginotListTableViewController: UITableViewController {
     let apiKeyOdi:String = "Uod2LyinNkpHwAVsJrWBBA"
     let sid = 202
     let eid = 222
-
+    var timeArray:[String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -110,6 +108,8 @@ class MaginotListTableViewController: UITableViewController {
             var subWayLeadTime = Double(self.route?.globalTravelTime ?? Int(0.0))
             print("지하철 소요시간: \(subWayLeadTime)")
 //            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
+            
+            timeArray = [String]()
             for time in self.timeTable {
                 let leftTime = "\(strToday) \(time.leftTime)"
                 guard let dateLetfTime = formatter.date(from: leftTime)
@@ -117,7 +117,7 @@ class MaginotListTableViewController: UITableViewController {
                 let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0)
                 self.strArriveTime = formatter.string(from: dateLetfTime1)
                 print("도착시간: \(strArriveTime)")
-               
+                timeArray.append(strArriveTime)
             }
             
         }
@@ -183,7 +183,7 @@ func searchSubwayPath(_ sid:String,_ eid:String){
         lblEnd?.text = self.route?.globalEndName
         
         let lblEndTime = cell.viewWithTag(4) as? UILabel
-        lblEndTime?.text = strArriveTime
+        lblEndTime?.text = timeArray[indexPath.row]
         
         return cell
     }
