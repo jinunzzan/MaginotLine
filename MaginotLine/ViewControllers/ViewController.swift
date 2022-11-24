@@ -23,7 +23,7 @@ class ViewController: UIViewController{
     var selectMaginotTime = "" // 도착시간
     var startStaionCode = "" // 출발역 fr_code
     var endStationCode = ""// 도착역 fr_code
-    var today = "" // 날짜 코드 
+    var today = "" // 날짜 코드
     
     let pickerListHour = ["03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"]
     let pickerListMinute = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59"]
@@ -39,7 +39,6 @@ class ViewController: UIViewController{
       
     }
     // 출발역 도착역 선택 후 받아오기
-
     func setStation(type:Int, value:String, code: String){
         
         if type == 0 {
@@ -93,6 +92,11 @@ class ViewController: UIViewController{
             
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // 검색 버튼으로 데이터 전송
+    @IBAction func setMaginotLine(_ sender: UIButton) {
+        
     }
 }
 

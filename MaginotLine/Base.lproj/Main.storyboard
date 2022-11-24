@@ -125,6 +125,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
+                                    <action selector="setMaginotLine:" destination="SDh-0Q-cnk" eventType="touchUpInside" id="nYe-ud-baN"/>
                                     <segue destination="mbQ-eF-sqR" kind="show" id="flt-cK-nqo"/>
                                 </connections>
                             </button>
