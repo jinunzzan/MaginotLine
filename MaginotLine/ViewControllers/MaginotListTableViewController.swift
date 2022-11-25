@@ -78,7 +78,7 @@ class MaginotListTableViewController: UITableViewController {
         
        // 마지노선 구하는 방법은? 마지노선 시간 - 소요시간 에 도착시간이 가장 가까운 열차
 
-        searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
+//        searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
         searchSubwayPath(strStartFrCode ?? "", strEndFrCode ?? "")
     }
     
@@ -114,9 +114,10 @@ class MaginotListTableViewController: UITableViewController {
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             
             // 지하철 총 소요시간을 ** 분으로 맞춰서 더할 수 있게 한 거
+            print("지하철 소요시간: \(self.route?.globalTravelTime)")
             var subWayLeadTime = Double(self.route?.globalTravelTime ?? Int(0.0))
             print("지하철 소요시간: \(subWayLeadTime)")
-           
+            let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0) // 걸리는 시간
           
 //            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
             
@@ -127,20 +128,21 @@ class MaginotListTableViewController: UITableViewController {
                         
                 else {fatalError()}
                 print("leftTime: \(leftTime)")
-                print("dateLeftTime: \(dateLetfTime)")
-                let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0) // 걸리는 시간
+                print("출발역에서 출발하는시간 + 걸리는 시간 dateLeftTime: \(dateLetfTime)")
+           
+                print("dateLeftTime1 \(dateLetfTime1)")
                 self.strArriveTime = formatter.string(from: dateLetfTime1)
-                print("strArriveTime: \(strArriveTime)")
+                print("도착역에 열차가 도착하는 시간 strArriveTime: \(strArriveTime)")
                 timeArray.append(strArriveTime)
                 
                 
                 // 진짜 마지노선 리스트 구하기!
                 var maginotTime = "\(strToday) \(strMaginotTime)"
                 guard var mustDepartTime = formatter.date(from: maginotTime) else {fatalError()}
-                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime))
+                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime*60.0))
                 let strDepartTime1 = formatter.string(from: mustDepartTime1)
-                print("도착해야하는시간 strDepartTime1: \(strDepartTime1)")
-//                
+                print("출발해야하는시간 strDepartTime1: \(strDepartTime1)")
+//
 //                let maginotMinusDuring = strDepartTime1.addingTimeInterval(dateLeftTime1 * -1.0)
             }
             
@@ -176,6 +178,7 @@ func searchSubwayPath(_ sid:String,_ eid:String){
             } else {
                 print("전체 운행소요시간\(self.route?.globalTravelTime)")
             }
+            self.searchTimeTable(start_index: 1, end_index: 5, station_cd: self.strStartStationCD, week_tag: self.strToday, inout_tag: "1")
            
     }
 }
