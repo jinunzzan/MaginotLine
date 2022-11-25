@@ -45,6 +45,29 @@ struct Time:Codable{
         case destStation2 = "DESTSTATION2"
         case express_yn = "EXPRESS_YN"
         case branch_line = "BRANCH_LINE"
+        
+       
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.line_num = try container.decode(String.self, forKey: .line_num)
+        self.fr_code = try container.decode(String.self, forKey: .fr_code)
+        self.station_cd = try container.decode(String.self, forKey: .station_cd)
+        self.station_nm = try container.decode(String.self, forKey: .station_nm)
+        self.train_no = try container.decode(String.self, forKey: .train_no)
+        self.arriveTime = try container.decode(String.self, forKey: .arriveTime)
+        self.leftTime = try container.decode(String.self, forKey: .leftTime)
+        self.originStation = try container.decode(String.self, forKey: .originStation)
+        self.destStation = try container.decode(String.self, forKey: .destStation)
+        self.subwaySName = try container.decode(String.self, forKey: .subwaySName)
+        self.subwayEName = try container.decode(String.self, forKey: .subwayEName)
+        self.week_tag = try container.decode(String.self, forKey: .week_tag)
+        self.inout_tag = try container.decode(String.self, forKey: .inout_tag)
+        self.fl_flag = try container.decode(String.self, forKey: .fl_flag)
+        self.destStation2 = try container.decode(String.self, forKey: .destStation2)
+        self.express_yn = try container.decode(String.self, forKey: .express_yn)
+        self.branch_line = try container.decode(String.self, forKey: .branch_line)
     }
 }
 

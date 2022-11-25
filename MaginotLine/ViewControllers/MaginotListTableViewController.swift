@@ -11,15 +11,13 @@ import UIKit
 import Alamofire
 
 class MaginotListTableViewController: UITableViewController {
-    
     var timeTable:[Time]=[]
-    
     var time:Time?
     var timeResult:Time?
-    
-
+    var timeList:TimeTable?
+    var listTime: TimeResult?
     // 받아올 stringData
-
+    
     var strStartStationCD:String = ""
     var strEndStationCD:String = ""
     var strMaginotTime:String = ""
@@ -30,7 +28,6 @@ class MaginotListTableViewController: UITableViewController {
     //출발시간+ 소요시간
     var strArriveTime = ""
     // strArriveTime이 들어갈 배열
-    
     
     // 시간표 api
     let apiKey = "4172664e4e6c6f763130366746444b72"
@@ -47,9 +44,9 @@ class MaginotListTableViewController: UITableViewController {
     var exchangeInfoSet:ExChangeInfoSet?
     //환승시간 변수
     var transMinute:Int?
-    
     var inout_tag:String? //상/하행선
     var wayCode:Int = -1 //상하행선
+    
     
     
     // fr_code 사용
@@ -74,16 +71,16 @@ class MaginotListTableViewController: UITableViewController {
         print("마지노선 도착역fr_cd: \(strEndFrCode)")
         print("마지노선 시간: \(strMaginotTime)")
         print("마지노선 요일코드: \(strToday)")
-        print("마지노선 상하행선코드: \(inout_tag)")
+        print("마지노선 상하행선코드: \(inout_tag ?? "")")
         
-       // 마지노선 구하는 방법은? 마지노선 시간 - 소요시간 에 도착시간이 가장 가까운 열차
-
-//        searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
+        // 마지노선 구하는 방법은? 마지노선 시간 - 소요시간 에 도착시간이 가장 가까운 열차
+        
+        //        searchTimeTable(start_index: 1, end_index: 5, station_cd: strStartStationCD, week_tag: strToday, inout_tag: "1")
         searchSubwayPath(strStartFrCode ?? "", strEndFrCode ?? "")
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
-//        var strWayCode = String(wayCode)
+        
         let str = "http://openAPI.seoul.go.kr:8088/\(apiKey)/\(type)/\(serviceKey)/\(start_index)/\(end_index)/\(station_cd)/\(week_tag)/\(inout_tag)/"
         print(str)
         
@@ -94,14 +91,13 @@ class MaginotListTableViewController: UITableViewController {
             guard let result = response.value else {return}
             self.timeTable = result.SearchSTNTimeTableByIDService.row
             print(self.timeTable)
-            self.tableView.reloadData()
+            //            self.tableView.reloadData()
             
-            
-            print("============")
-            print("출발시간: \(self.timeTable[0].leftTime)")
-            print("출발역: \(self.timeTable[0].station_nm)")
-            
-            print("============")
+            //            print("============")
+            //            print("출발시간: \(self.timeTable[0].leftTime)")
+            //            print("출발역: \(self.timeTable[0].station_nm)")
+            //
+            //            print("============")
             
             // 데이터 포맷 변환
             let formatter = DateFormatter()
@@ -114,51 +110,55 @@ class MaginotListTableViewController: UITableViewController {
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             
             // 지하철 총 소요시간을 ** 분으로 맞춰서 더할 수 있게 한 거
-            print("지하철 소요시간: \(self.route?.globalTravelTime)")
+            //            print("지하철 소요시간: \(self.route?.globalTravelTime)")
             var subWayLeadTime = Double(self.route?.globalTravelTime ?? Int(0.0))
             print("지하철 소요시간: \(subWayLeadTime)")
-            let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0) // 걸리는 시간
-          
-//            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
+            //            var minTime = "\(strToday) \(self.timeTable[0].leftTime)"
             
-            timeArray = [String]()
-            for time in self.timeTable {
-                let leftTime = "\(strToday) \(time.leftTime)"
-                guard let dateLetfTime = formatter.date(from: leftTime)
-                        
-                else {fatalError()}
-                print("leftTime: \(leftTime)")
-                print("출발역에서 출발하는시간 + 걸리는 시간 dateLeftTime: \(dateLetfTime)")
-           
-                print("dateLeftTime1 \(dateLetfTime1)")
-                self.strArriveTime = formatter.string(from: dateLetfTime1)
-                print("도착역에 열차가 도착하는 시간 strArriveTime: \(strArriveTime)")
-                timeArray.append(strArriveTime)
+            var maginotTime = "\(strToday) \(strMaginotTime)"
+            var dateMagino = formatter.date(from: maginotTime)
+            
+            
+            guard let dateMagino = dateMagino?.addingTimeInterval(subWayLeadTime * -60.0) //
+            else { fatalError() }
+            formatter.dateFormat = "HH:mm:ss"
+            let strMagino = formatter.string(from: dateMagino)
+            print("strMagino \(strMagino)")
+            
+            
+            var tempTimeTable = self.timeTable.filter { time in
+                time.leftTime < strMagino
+            }
+            tempTimeTable.reverse()
+            
+            if tempTimeTable.count > 5 {
+                let tempTimeTable1 = Array(tempTimeTable[0..<5])
+                self.timeTable = tempTimeTable1
                 
-                
-                // 진짜 마지노선 리스트 구하기!
-                var maginotTime = "\(strToday) \(strMaginotTime)"
-                guard var mustDepartTime = formatter.date(from: maginotTime) else {fatalError()}
-                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime*60.0))
-                let strDepartTime1 = formatter.string(from: mustDepartTime1)
-                print("출발해야하는시간 strDepartTime1: \(strDepartTime1)")
-//
-//                let maginotMinusDuring = strDepartTime1.addingTimeInterval(dateLeftTime1 * -1.0)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    
+                }
             }
             
+            
+            print("//////////////////////////////")
+            print(self.timeTable)
+            print("//////////////////////////////")
+            
         }
-        tableView.reloadData()
+        
     }
     
-func searchSubwayPath(_ sid:String,_ eid:String){
-    let str = "https://api.odsay.com/v1/api/subwayPath"
-    let params:Parameters = ["apiKey":apiKeyOdi, "lang":0, "output":"json", "CID":1000, "SID":sid, "EID":eid]
-    let alamo = AF.request(str, method: .get, parameters: params)
-    
-    alamo.responseDecodable(of: Root.self)
+    func searchSubwayPath(_ sid:String,_ eid:String){
+        let str = "https://api.odsay.com/v1/api/subwayPath"
+        let params:Parameters = ["apiKey":apiKeyOdi, "lang":0, "output":"json", "CID":1000, "SID":sid, "EID":eid]
+        let alamo = AF.request(str, method: .get, parameters: params)
+        
+        alamo.responseDecodable(of: Root.self)
         { response in
             print(response)
-        guard let result = response.value else { return }
+            guard let result = response.value else { return }
             self.route = result.result
             print("==================")
             print("전체 운행소요시간\(self.route?.globalTravelTime)")
@@ -178,88 +178,87 @@ func searchSubwayPath(_ sid:String,_ eid:String){
             } else {
                 print("전체 운행소요시간\(self.route?.globalTravelTime)")
             }
-            self.searchTimeTable(start_index: 1, end_index: 5, station_cd: self.strStartStationCD, week_tag: self.strToday, inout_tag: "1")
-           
+            
+            self.searchTimeTable(start_index: 1, end_index: 500, station_cd: self.strStartStationCD, week_tag: self.strToday, inout_tag: "1")
+        }
     }
-}
-    // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-      
+        
         return timeTable.count
         
     }
-
-  
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "maginotcell", for: indexPath)
-
+        
         let time = timeTable[indexPath.row]
         
-              let lblStart = cell.viewWithTag(1) as? UILabel
+        let lblStart = cell.viewWithTag(1) as? UILabel
         lblStart?.text = time.station_nm
         let lblStartTime = cell.viewWithTag(2) as? UILabel
         lblStartTime?.text = time.arriveTime
-
+        
         let lblEnd = cell.viewWithTag(3) as? UILabel
         lblEnd?.text = self.route?.globalEndName
         
         let lblEndTime = cell.viewWithTag(4) as? UILabel
-        lblEndTime?.text = timeArray[indexPath.row]
+//        lblEndTime?.text = timeArray[indexPath.row]
         
         return cell
     }
-
-
+    
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
