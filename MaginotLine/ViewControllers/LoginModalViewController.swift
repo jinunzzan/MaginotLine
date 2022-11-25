@@ -25,6 +25,7 @@ class LoginModalViewController: UIViewController {
         profileImage.layer.shadowOpacity = 0.7
         profileImage.layer.shadowRadius = 5
         profileImage.layer.shadowColor = UIColor.gray.cgColor
+        print("hi")
     }
     
     
