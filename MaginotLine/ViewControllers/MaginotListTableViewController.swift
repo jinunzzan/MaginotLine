@@ -40,7 +40,7 @@ class MaginotListTableViewController: UITableViewController {
     var end_index = 5 //요청종료위치
     var station_cd = "2561" //전철역코드
     var week_tag = "1" //요일
-    var inout_tag = "1" //상/하행선
+    
     // 소요시간 api
     var route:Result?
     //1. var exchangeInfoSet:ExChangeInfo? - nil값 나옴
@@ -48,7 +48,8 @@ class MaginotListTableViewController: UITableViewController {
     //환승시간 변수
     var transMinute:Int?
     
-    
+    var inout_tag:String? //상/하행선
+    var wayCode:Int = -1 //상하행선
     
     
     // fr_code 사용
@@ -82,6 +83,7 @@ class MaginotListTableViewController: UITableViewController {
     }
     
     func searchTimeTable(start_index:Int, end_index:Int,  station_cd:String, week_tag:String, inout_tag:String){
+//        var strWayCode = String(wayCode)
         let str = "http://openAPI.seoul.go.kr:8088/\(apiKey)/\(type)/\(serviceKey)/\(start_index)/\(end_index)/\(station_cd)/\(week_tag)/\(inout_tag)/"
         print(str)
         
@@ -124,18 +126,22 @@ class MaginotListTableViewController: UITableViewController {
                 guard let dateLetfTime = formatter.date(from: leftTime)
                         
                 else {fatalError()}
+                print("leftTime: \(leftTime)")
+                print("dateLeftTime: \(dateLetfTime)")
                 let dateLetfTime1 = dateLetfTime.addingTimeInterval(subWayLeadTime * 60.0) // 걸리는 시간
-                print("걸리는시간\(dateLetfTime1)")
                 self.strArriveTime = formatter.string(from: dateLetfTime1)
-                print("도착시간: \(strArriveTime)")
+                print("strArriveTime: \(strArriveTime)")
                 timeArray.append(strArriveTime)
                 
                 
                 // 진짜 마지노선 리스트 구하기!
                 var maginotTime = "\(strToday) \(strMaginotTime)"
                 guard var mustDepartTime = formatter.date(from: maginotTime) else {fatalError()}
-                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime * 1.0))
-                print("찐찐찐이게찐임 \(mustDepartTime1)")
+                let mustDepartTime1 = mustDepartTime.addingTimeInterval(-(subWayLeadTime))
+                let strDepartTime1 = formatter.string(from: mustDepartTime1)
+                print("도착해야하는시간 strDepartTime1: \(strDepartTime1)")
+//                
+//                let maginotMinusDuring = strDepartTime1.addingTimeInterval(dateLeftTime1 * -1.0)
             }
             
         }
